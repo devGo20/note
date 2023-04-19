@@ -5,6 +5,12 @@ type Props = {
     slug: string; // []안 slug가 key
   };
 };
+
+export function generateMetadata({ params }: Props) {
+  return {
+    title: `제품의 이름: ${params.slug}`,
+  };
+}
 export default function PantsPage({ params }: Props) {
   if (params.slug === 'nothing') {
     notFound(); // not-found 호출 함수
