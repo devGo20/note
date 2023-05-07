@@ -1,3 +1,4 @@
+import { getProduct, getProducts } from '@/service/products';
 import { notFound } from 'next/navigation';
 
 type Props = {
@@ -11,17 +12,22 @@ export function generateMetadata({ params }: Props) {
     title: `제품의 이름: ${params.slug}`,
   };
 }
-export default function PantsPage({ params }: Props) {
-  if (params.slug === 'nothing') {
+export default async function ProductPage({ params: { slug } }: Props) {
+  // 구조 분해 할당 사용
+  const product = await getProduct(slug);
+
+  if (!product) {
     notFound(); // not-found 호출 함수
   }
-  return <h1>{params.slug} 소개 페이지!</h1>;
+  // 서버 파일에 있는 데이터 중 해당 제품의 정보를 찾아서 그걸 보여줌
+  return <h1>{product.name} 소개 페이지!</h1>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   // build할 때 명시된 것을 미리 만들어두는 것
-  const proucts = ['pants', 'skirt'];
+  const proucts = await getProducts();
+  // 모든 제품의 페이지들을 미리 만들어 둘 수 있게 함(SSG)
   return proucts.map((product) => ({
-    slug: product,
+    slug: product.id,
   }));
 }
