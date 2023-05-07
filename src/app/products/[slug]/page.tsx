@@ -12,6 +12,8 @@ export function generateMetadata({ params }: Props) {
     title: `제품의 이름: ${params.slug}`,
   };
 }
+export const revalidate = 3; // false (default) | 0 | number
+
 export default async function ProductPage({ params: { slug } }: Props) {
   // 구조 분해 할당 사용
   const product = await getProduct(slug);
