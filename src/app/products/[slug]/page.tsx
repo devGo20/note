@@ -1,5 +1,6 @@
-import { getProduct, getProducts } from '@/service/products';
-import { notFound } from 'next/navigation';
+import { getProduct, getProducts } from "@/service/products";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: {
@@ -22,7 +23,17 @@ export default async function ProductPage({ params: { slug } }: Props) {
     notFound(); // not-found 호출 함수
   }
   // 서버 파일에 있는 데이터 중 해당 제품의 정보를 찾아서 그걸 보여줌
-  return <h1>{product.name} 소개 페이지!</h1>;
+  return (
+    <>
+      <h1>{product.name} 소개 페이지!</h1>
+      <Image
+        src={`/images/${product.image}`}
+        alt={product.name}
+        width={300}
+        height={300}
+      />
+    </>
+  );
 }
 
 export async function generateStaticParams() {
