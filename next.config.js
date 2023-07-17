@@ -21,6 +21,19 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    // 노출되면 안되는 url을 다른 url로 덮어씌움 (프로젝트 구조 미노출, 긴 url인 경우)
+    return [
+      {
+        source: '/been',
+        destination: '/about/me/been',
+      },
+      {
+        source: '/item/:slug',
+        destination: '/products/:slug',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
